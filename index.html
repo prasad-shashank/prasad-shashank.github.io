@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shashank Prasad — Lead Product Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:        #080c10;
+    --bg2:       #0d1117;
+    --bg3:       #111820;
+    --border:    #1e2d3d;
+    --accent:    #00d4ff;
+    --accent2:   #0088cc;
+    --accent3:   #00ff9d;
+    --text:      #c9d1d9;
+    --text-dim:  #6e7f8f;
+    --text-head: #e6edf3;
+    --red:       #ff4757;
+    --yellow:    #ffd700;
+    --mono:      'Space Mono', monospace;
+    --sans:      'DM Sans', sans-serif;
+    --display:   'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* Grid background */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(8,12,16,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-logo span { color: var(--text-dim); }
+
+  nav ul {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  nav a {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    pointer-events: none;
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  .hero-glow2 {
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,255,157,0.05) 0%, transparent 70%);
+    bottom: 100px; left: 200px;
+    pointer-events: none;
+    animation: pulse 8s ease-in-out infinite reverse;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+  }
+
+  .hero-content { max-width: 800px; position: relative; z-index: 2; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    border: 1px solid rgba(0,212,255,0.3);
+    padding: 0.35rem 0.9rem;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    letter-spacing: 0.1em;
+    background: rgba(0,212,255,0.05);
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent3);
+    animation: blink 1.5s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    color: var(--text-head);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+  }
+
+  h1 .accent { color: var(--accent); }
+
+  .hero-title {
+    font-family: var(--mono);
+    font-size: 1rem;
+    color: var(--text-dim);
+    margin-bottom: 1.8rem;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-title span { color: var(--accent3); }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--text);
+    max-width: 620px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.85rem 2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    border: 1px solid var(--accent);
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--accent);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    padding: 0.85rem 2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat-num {
+    font-family: var(--display);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 4rem;
+  }
+
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: var(--text-head);
+    letter-spacing: -0.02em;
+    margin-bottom: 3rem;
+  }
+
+  h2 .dim { color: var(--text-dim); }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.8rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .skill-card:hover { border-color: rgba(0,212,255,0.4); transform: translateY(-2px); }
+  .skill-card:hover::before { transform: scaleX(1); }
+
+  .skill-icon {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .skill-name {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-head);
+    margin-bottom: 0.8rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--accent);
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    letter-spacing: 0.04em;
+  }
+
+  .tag.green { color: var(--accent3); background: rgba(0,255,157,0.08); border-color: rgba(0,255,157,0.2); }
+  .tag.yellow { color: var(--yellow); background: rgba(255,215,0,0.08); border-color: rgba(255,215,0,0.2); }
+
+  /* ── EXPERIENCE ── */
+  .timeline {
+    position: relative;
+    max-width: 900px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent), transparent);
+  }
+
+  .timeline-item {
+    padding-left: 2.5rem;
+    padding-bottom: 3.5rem;
+    position: relative;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -4px; top: 6px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  .timeline-item.current::before {
+    background: var(--accent3);
+    box-shadow: 0 0 16px var(--accent3);
+    animation: dot-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes dot-pulse {
+    0%, 100% { box-shadow: 0 0 8px var(--accent3); }
+    50% { box-shadow: 0 0 20px var(--accent3), 0 0 40px rgba(0,255,157,0.3); }
+  }
+
+  .timeline-period {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-role {
+    font-family: var(--display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-head);
+    margin-bottom: 0.2rem;
+  }
+
+  .timeline-company {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .timeline-desc {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .timeline-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  /* ── KEY PROJECT ── */
+  #project {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project-box {
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 6px;
+    padding: 3rem;
+    background: linear-gradient(135deg, rgba(0,212,255,0.04) 0%, rgba(0,255,157,0.02) 100%);
+    position: relative;
+    overflow: hidden;
+    max-width: 900px;
+  }
+
+  .project-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+  }
+
+  .project-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent3);
+    border: 1px solid rgba(0,255,157,0.3);
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: rgba(0,255,157,0.05);
+  }
+
+  .project-title {
+    font-family: var(--display);
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-head);
+    margin-bottom: 0.5rem;
+  }
+
+  .project-company {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .project-desc {
+    font-size: 1rem;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    max-width: 700px;
+  }
+
+  .project-highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .highlight-item {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.2rem;
+  }
+
+  .highlight-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .highlight-text {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── CERTIFICATIONS ── */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+
+  .cert-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.2rem 1.5rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .cert-card:hover { border-color: rgba(0,212,255,0.4); transform: translateX(4px); }
+
+  .cert-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .cert-name {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-head);
+  }
+
+  .cert-issuer {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+  }
+
+  /* ── EDUCATION ── */
+  #education { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .edu-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .edu-card:hover { border-color: rgba(0,212,255,0.4); }
+
+  .edu-degree {
+    font-family: var(--display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-head);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .edu-school {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .edu-year {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+  }
+
+  .edu-grade {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent3);
+    border: 1px solid rgba(0,255,157,0.25);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    background: rgba(0,255,157,0.05);
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    text-align: center;
+    background: var(--bg);
+    padding: 8rem 4rem;
+  }
+
+  .contact-box {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .contact-email {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-block;
+    margin: 2rem 0;
+    border-bottom: 1px solid rgba(0,212,255,0.3);
+    padding-bottom: 0.3rem;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .contact-email:hover { color: var(--accent3); border-color: var(--accent3); }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.7rem 1.4rem;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .social-link:hover { color: var(--accent); border-color: var(--accent); background: rgba(0,212,255,0.05); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg2);
+    z-index: 1;
+    position: relative;
+  }
+
+  footer p {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+  }
+
+  footer span { color: var(--accent); }
+
+  /* ── TERMINAL ── */
+  .terminal {
+    background: #0a0e14;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    max-width: 620px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,212,255,0.08);
+    font-family: var(--mono);
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: #111820;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .t-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .t-title {
+    margin-left: 0.5rem;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .terminal-body {
+    padding: 1.2rem 1.5rem;
+    min-height: 160px;
+    font-size: 0.82rem;
+    line-height: 2;
+  }
+
+  .t-line { display: block; }
+  .t-prompt { color: var(--accent3); }
+  .t-cmd { color: var(--text-head); }
+  .t-out { color: var(--text-dim); }
+  .t-key { color: var(--accent); }
+  .t-val { color: #e6db74; }
+  .t-comment { color: #5c6773; }
+  .t-cursor-inline {
+    display: inline-block;
+    width: 8px; height: 14px;
+    background: var(--accent);
+    vertical-align: middle;
+    margin-left: 2px;
+    animation: blink-cursor 1s step-end infinite;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Typewriter cursor */
+  .cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1em;
+    background: var(--accent);
+    margin-left: 4px;
+    vertical-align: middle;
+    animation: blink-cursor 1s step-end infinite;
+  }
+
+  @keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { gap: 1.2rem; }
+    #hero, section { padding: 5rem 1.5rem 3rem; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span>~/</span>shashank · architect & engineer</div>
+  <ul>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#project">Projects</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Hire Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    
+    <h1>Shashank<br/><span class="accent">Prasad</span></h1>
+    <div class="hero-title">
+      <span id="typewriter"></span><span class="cursor"></span>
+    </div>
+    <p class="hero-desc">
+      Solution Architect & Lead Product Software Engineer with 13+ years designing and delivering cloud-native enterprise systems. I take on <strong style="color:var(--text-head)">freelance projects</strong>, <strong style="color:var(--text-head)">consulting engagements</strong>, and <strong style="color:var(--text-head)">contract work</strong> in .NET, Azure, RegTech, and AI/ML — from architecture design to full delivery.
+    </p>
+
+    <!-- TERMINAL -->
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="t-dot" style="background:#ff5f57"></span>
+        <span class="t-dot" style="background:#febc2e"></span>
+        <span class="t-dot" style="background:#28c840"></span>
+        <span class="t-title">shashank@portfolio ~ </span>
+      </div>
+      <div class="terminal-body" id="terminal-body"></div>
+    </div>
+
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-primary">
+        ✉ Hire Me
+      </a>
+      <a href="Shashank_Prasad_Resume.pdf" download class="btn-secondary">
+        ↓ Download Resume
+      </a>
+      <a href="https://github.com/prasad-shashank" target="_blank" rel="noopener" class="btn-secondary">
+        ⌥ GitHub
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">13+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">5×</div>
+        <div class="stat-label">Azure Certified</div>
+      </div>
+      <div>
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Engineers Led</div>
+      </div>
+      <div>
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Countries Deployed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-tag">// 01 — capabilities</div>
+  <h2>Skills &amp; <span class="dim">Technologies</span></h2>
+  <div class="skills-grid">
+    <div class="skill-card fade-in">
+      <div class="skill-icon">⚙️</div>
+      <div class="skill-name">Backend Engineering</div>
+      <div class="skill-tags">
+        <span class="tag">.NET Core</span>
+        <span class="tag">ASP.NET MVC</span>
+        <span class="tag">Web API</span>
+        <span class="tag">WCF</span>
+        <span class="tag">WPF</span>
+        <span class="tag">C#</span>
+      </div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-icon">☁️</div>
+      <div class="skill-name">Cloud & DevOps</div>
+      <div class="skill-tags">
+        <span class="tag">Azure (5×)</span>
+        <span class="tag">AWS</span>
+        <span class="tag">Docker</span>
+        <span class="tag green">Azure DevOps</span>
+        <span class="tag green">CI/CD</span>
+        <span class="tag green">Git</span>
+      </div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-icon">🤖</div>
+      <div class="skill-name">AI / ML & RegTech</div>
+      <div class="skill-tags">
+        <span class="tag green">Python</span>
+        <span class="tag green">MLOps</span>
+        <span class="tag green">XML/XBRL</span>
+        <span class="tag green">Smart Taxonomies</span>
+        <span class="tag green">RegTech</span>
+      </div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-icon">🗄️</div>
+      <div class="skill-name">Data & Databases</div>
+      <div class="skill-tags">
+        <span class="tag">SQL Server</span>
+        <span class="tag">Oracle</span>
+        <span class="tag">MongoDB</span>
+        <span class="tag">EF Core</span>
+        <span class="tag yellow">Entity Framework</span>
+      </div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-icon">🎨</div>
+      <div class="skill-name">Frontend</div>
+      <div class="skill-tags">
+        <span class="tag">Angular</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">Bootstrap</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">jQuery</span>
+      </div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-icon">🏗️</div>
+      <div class="skill-name">Solution Architecture</div>
+      <div class="skill-tags">
+        <span class="tag yellow">System Design</span>
+        <span class="tag yellow">Microservices</span>
+        <span class="tag yellow">Cloud-Native</span>
+        <span class="tag yellow">Event-Driven</span>
+        <span class="tag yellow">DDD</span>
+        <span class="tag yellow">Agile / CSM</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-tag">// 02 — journey</div>
+  <h2>Work <span class="dim">Experience</span></h2>
+  <div class="timeline">
+
+    <div class="timeline-item current fade-in">
+      <div class="timeline-period">Dec 2025 — Present · 4 mos</div>
+      <div class="timeline-role">Lead Product Software Engineer (R&D)</div>
+      <div class="timeline-company">Regnology · Hybrid, Pune</div>
+      <p class="timeline-desc">
+        Driving R&D engineering within a 10+ engineer team focused on product innovation, next-generation architecture and cutting-edge regulatory technology. Leading architectural decisions, prototyping new platform capabilities, and championing AI/ML research initiatives within the RegTech domain.
+      </p>
+      <div class="timeline-tech">
+        <span class="tag green">.NET Core</span>
+        <span class="tag green">Azure</span>
+        <span class="tag green">R&D</span>
+        <span class="tag green">RegTech</span>
+        <span class="tag green">AI/ML</span>
+      </div>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-period">Jul 2024 — Nov 2025 · 1 yr 5 mos</div>
+      <div class="timeline-role">Lead Product Software Engineer</div>
+      <div class="timeline-company">Wolters Kluwer · Hybrid, Pune</div>
+      <p class="timeline-desc">
+        Designed and delivered the Delivery Engine for LCA reporting across 10+ modules — automating XML/XBRL report generation via Run-on-Taxonomy (RoT). Reduced manual configuration effort by ~60% using metadata-driven Smart Taxonomies and built production tooling for configuration management and workflow automation.
+      </p>
+      <div class="timeline-tech">
+        <span class="tag">ASP.NET Core</span>
+        <span class="tag">XML/XBRL</span>
+        <span class="tag">Azure</span>
+        <span class="tag">SQL Server</span>
+        <span class="tag">Azure DevOps</span>
+      </div>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-period">2021 — 2024 · 3 yrs</div>
+      <div class="timeline-role">Technology Lead — .NET / Azure</div>
+      <div class="timeline-company">Fiserv India · Bangkok Bank PCL (Thailand)</div>
+      <p class="timeline-desc">
+        Led a team of 8–12 engineers architecting the Bualuang mBanking platform for Bangkok Bank, serving millions of customers across Thailand. Built high-performance ASP.NET Core APIs on Azure — improving platform response time by 30%. Managed full sprint delivery via Azure DevOps.
+      </p>
+      <div class="timeline-tech">
+        <span class="tag">ASP.NET Core</span>
+        <span class="tag">Azure</span>
+        <span class="tag">SQL Server</span>
+        <span class="tag">Docker</span>
+        <span class="tag">Node.js</span>
+      </div>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-period">2019 — 2021 · 2 yrs</div>
+      <div class="timeline-role">Senior Software Engineer / Tech Lead</div>
+      <div class="timeline-company">Capita · AMT Sybex Geofield</div>
+      <p class="timeline-desc">
+        Led cross-platform field mobility solution development (Windows/iOS/Android). Integrated Python ML models reducing unplanned maintenance by 25%. Streamlined CI/CD with Docker, cutting deployment time by 40%.
+      </p>
+      <div class="timeline-tech">
+        <span class="tag">.NET Core</span>
+        <span class="tag">Angular</span>
+        <span class="tag">Python / ML</span>
+        <span class="tag">Docker</span>
+        <span class="tag">Azure</span>
+      </div>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-period">2017 — 2019 · 2 yrs</div>
+      <div class="timeline-role">Technical Lead</div>
+      <div class="timeline-company">NCS / Infosys · Singapore Land Authority</div>
+      <p class="timeline-desc">
+        Owned full delivery lifecycle for Singapore's Temporary Occupation License platform. Integrated SingPass, CorpPass, MyInfo APIs and implemented PayNow & GIRO payment gateways handling thousands of daily transactions.
+      </p>
+      <div class="timeline-tech">
+        <span class="tag">.NET Core</span>
+        <span class="tag">MVC</span>
+        <span class="tag">EF Core</span>
+        <span class="tag">Oracle</span>
+        <span class="tag">Azure</span>
+      </div>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-period">2013 — 2017 · 4 yrs</div>
+      <div class="timeline-role">Software Engineer → Senior Software Engineer</div>
+      <div class="timeline-company">LTI — L&T Infotech · The Travelers Companies (USA)</div>
+      <p class="timeline-desc">
+        Built Angular 6 / .NET Web API / MongoDB app from scratch for one of the largest US P&C insurers. Established NuGet ecosystem across 10+ apps, reducing build failures by 35%. Received Achiever of Month (twice) and Golden Key Award.
+      </p>
+      <div class="timeline-tech">
+        <span class="tag">ASP.NET</span>
+        <span class="tag">Angular</span>
+        <span class="tag">MongoDB</span>
+        <span class="tag">WCF</span>
+        <span class="tag">SQL Server</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- KEY PROJECT -->
+<section id="project">
+  <div class="section-tag">// 03 — flagship work</div>
+  <h2>Key <span class="dim">Project</span></h2>
+  <div class="project-box fade-in">
+    <div class="project-badge">⚡ Flagship Engineering Project</div>
+    <div class="project-title">Delivery Engine & Smart Taxonomies Integration</div>
+    <div class="project-company">Wolters Kluwer · 2024 – 2025</div>
+    <p class="project-desc">
+      Architected and delivered an end-to-end automated reporting pipeline for LCA regulatory compliance, enabling runtime generation of XML/XBRL files across 10+ reporting modules. A defining piece of RegTech engineering that combined metadata-driven architecture with regulatory taxonomy intelligence.
+    </p>
+    <div class="project-highlights">
+      <div class="highlight-item">
+        <div class="highlight-label">Run-on-Taxonomy (RoT)</div>
+        <div class="highlight-text">Minimal-config engine running directly on published taxonomies — ensuring compliance with regulator conventions without bespoke per-module setup.</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-label">~60% Effort Reduction</div>
+        <div class="highlight-text">Metadata-driven Smart Taxonomies eliminated repetitive manual configuration, drastically improving maintainability across all modules.</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-label">Production Tooling</div>
+        <div class="highlight-text">Built configuration management and workflow tooling adopted across the engineering team, reducing production issue resolution time significantly.</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-label">Scale</div>
+        <div class="highlight-text">Deployed across 10+ LCA reporting modules serving enterprise regulatory clients across multiple jurisdictions.</div>
+      </div>
+    </div>
+    <div class="timeline-tech">
+      <span class="tag green">ASP.NET Core</span>
+      <span class="tag green">Azure</span>
+      <span class="tag green">XML / XBRL</span>
+      <span class="tag green">Smart Taxonomies</span>
+      <span class="tag green">SQL Server</span>
+      <span class="tag green">Azure DevOps</span>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-tag">// 04 — credentials</div>
+  <h2>Certifications <span class="dim">&amp; Training</span></h2>
+  <div class="certs-grid">
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🏅</div>
+      <div>
+        <div class="cert-name">Certified Scrum Master (CSM)</div>
+        <div class="cert-issuer">Scrum Alliance</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">☁️</div>
+      <div>
+        <div class="cert-name">Azure Architect Technologies (AZ-303)</div>
+        <div class="cert-issuer">Microsoft</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">☁️</div>
+      <div>
+        <div class="cert-name">Azure DevOps Engineer (AZ-400)</div>
+        <div class="cert-issuer">Microsoft</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">☁️</div>
+      <div>
+        <div class="cert-name">Azure Fundamentals (AZ-900)</div>
+        <div class="cert-issuer">Microsoft</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🤖</div>
+      <div>
+        <div class="cert-name">Azure AI Fundamentals (AI-900)</div>
+        <div class="cert-issuer">Microsoft</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">📊</div>
+      <div>
+        <div class="cert-name">Azure Data Fundamentals (DP-900)</div>
+        <div class="cert-issuer">Microsoft</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🧠</div>
+      <div>
+        <div class="cert-name">Microsoft AI / ML Certification</div>
+        <div class="cert-issuer">Microsoft</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🔶</div>
+      <div>
+        <div class="cert-name">AWS Technical Professional</div>
+        <div class="cert-issuer">Amazon Web Services</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">💻</div>
+      <div>
+        <div class="cert-name">IKM .NET Certification — Levels 1, 2 &amp; 3</div>
+        <div class="cert-issuer">IKM</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-tag">// 05 — education</div>
+  <h2>Academic <span class="dim">Background</span></h2>
+  <div class="edu-grid">
+    <div class="edu-card fade-in">
+      <div class="edu-degree">M.Sc. Machine Learning</div>
+      <div class="edu-school">Liverpool John Moores University</div>
+      <div class="edu-year">2022 – 2023</div>
+    </div>
+    <div class="edu-card fade-in">
+      <div class="edu-degree">PG Diploma — ML &amp; Artificial Intelligence</div>
+      <div class="edu-school">IIIT Bangalore</div>
+      <div class="edu-year">2022</div>
+    </div>
+    <div class="edu-card fade-in">
+      <div class="edu-degree">B.E. Electronics &amp; Telecommunication</div>
+      <div class="edu-school">Nagpur University</div>
+      <div class="edu-year">2012</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-tag">// 06 — what i offer</div>
+  <h2>Freelance <span class="dim">Services</span></h2>
+  <div class="skills-grid">
+    <div class="skill-card fade-in">
+      <div class="skill-icon">🏗️</div>
+      <div class="skill-name">Solution Architecture</div>
+      <p style="font-size:0.9rem;color:var(--text);margin:0.8rem 0 1rem;line-height:1.6;">System design, technology selection, architecture reviews, and roadmap planning for greenfield or legacy modernisation projects.</p>
+      <div class="skill-tags"><span class="tag yellow">Cloud-Native</span><span class="tag yellow">Microservices</span><span class="tag yellow">Azure</span></div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-icon">⚙️</div>
+      <div class="skill-name">.NET / Azure Development</div>
+      <p style="font-size:0.9rem;color:var(--text);margin:0.8rem 0 1rem;line-height:1.6;">Full-stack delivery using .NET Core, ASP.NET Web API, Angular, and Azure — from API design to CI/CD pipelines.</p>
+      <div class="skill-tags"><span class="tag">.NET Core</span><span class="tag">Azure</span><span class="tag">Angular</span></div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-icon">📊</div>
+      <div class="skill-name">RegTech Consulting</div>
+      <p style="font-size:0.9rem;color:var(--text);margin:0.8rem 0 1rem;line-height:1.6;">XML/XBRL reporting pipelines, Smart Taxonomy integration, and regulatory compliance automation for FinTech and financial institutions.</p>
+      <div class="skill-tags"><span class="tag green">XBRL</span><span class="tag green">RegTech</span><span class="tag green">FinTech</span></div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-icon">🤖</div>
+      <div class="skill-name">AI / ML Integration</div>
+      <p style="font-size:0.9rem;color:var(--text);margin:0.8rem 0 1rem;line-height:1.6;">Embedding ML models into production systems, MLOps pipelines, and AI-driven feature development using Python and Azure AI services.</p>
+      <div class="skill-tags"><span class="tag green">Python</span><span class="tag green">MLOps</span><span class="tag green">Azure AI</span></div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-icon">🔍</div>
+      <div class="skill-name">Technical Due Diligence</div>
+      <p style="font-size:0.9rem;color:var(--text);margin:0.8rem 0 1rem;line-height:1.6;">Code quality audits, architecture assessments, and risk analysis for startups, scaleups, or investor-backed teams.</p>
+      <div class="skill-tags"><span class="tag yellow">Code Review</span><span class="tag yellow">Audit</span><span class="tag yellow">Risk</span></div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-icon">🚀</div>
+      <div class="skill-name">DevOps & Cloud Migration</div>
+      <p style="font-size:0.9rem;color:var(--text);margin:0.8rem 0 1rem;line-height:1.6;">CI/CD setup, Docker containerisation, Azure DevOps pipelines, and cloud migration strategies for on-prem to Azure transitions.</p>
+      <div class="skill-tags"><span class="tag">Docker</span><span class="tag">CI/CD</span><span class="tag">Azure DevOps</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-box">
+    <div class="section-tag" style="text-align:center">// 07 — let's work together</div>
+    <h2 style="text-align:center">Work With <span class="dim">Me</span></h2>
+    <p style="color:var(--text-dim); font-size:1rem; max-width:500px; margin:0 auto;">
+      Available for freelance projects, consulting engagements, and contract work. Whether you need architecture design, a technical co-founder, or end-to-end .NET / Azure delivery — let's talk.
+    </p>
+    <div style="text-align:center">
+      <a href="mailto:shashank.prasad1990@gmail.com" class="contact-email">
+        shashank.prasad1990@gmail.com
+      </a>
+    </div>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/shashank-prasad" target="_blank" rel="noopener" class="social-link">↗ LinkedIn</a>
+      <a href="https://github.com/prasad-shashank" target="_blank" rel="noopener" class="social-link">⌥ GitHub</a>
+      <a href="tel:+918149440518" class="social-link">📞 Call</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <span>Shashank Prasad</span> · Solution Architect & Freelance Consultant</p>
+  <p>Pune, India · <span>Available for Projects & Contracts</span></p>
+</footer>
+
+<script>
+  // Terminal animation
+  const terminalLines = [
+    { type: 'cmd',  text: 'shashank --info' },
+    { type: 'out',  text: '> Role:      Solution Architect & Freelance Consultant' },
+    { type: 'out',  text: '> Location:  Pune, India 🇮🇳' },
+    { type: 'out',  text: '> Experience: 13+ years' },
+    { type: 'cmd',  text: 'shashank --stack' },
+    { type: 'key',  text: '  backend:  ', val: '.NET Core · ASP.NET · C# · WCF' },
+    { type: 'key',  text: '  cloud:    ', val: 'Azure (5×) · Docker · DevOps · CI/CD' },
+    { type: 'key',  text: '  ai/ml:    ', val: 'Python · MLOps · XML/XBRL · RegTech' },
+    { type: 'key',  text: '  frontend: ', val: 'Angular · TypeScript · Bootstrap' },
+    { type: 'cmd',  text: 'shashank --available' },
+    { type: 'out',  text: '✅ Available for freelance & consulting projects' },
+  ];
+
+  const tb = document.getElementById('terminal-body');
+  let lineIdx = 0;
+
+  function renderLine(line, callback) {
+    const span = document.createElement('span');
+    span.className = 't-line';
+
+    if (line.type === 'cmd') {
+      span.innerHTML = `<span class="t-prompt">❯ </span><span class="t-cmd"></span><span class="t-cursor-inline"></span>`;
+      tb.appendChild(span);
+      const cmdEl = span.querySelector('.t-cmd');
+      const cur = span.querySelector('.t-cursor-inline');
+      let i = 0;
+      const iv = setInterval(() => {
+        cmdEl.textContent += line.text[i++];
+        if (i >= line.text.length) {
+          clearInterval(iv);
+          cur.remove();
+          setTimeout(callback, 180);
+        }
+      }, 55);
+    } else if (line.type === 'key') {
+      span.innerHTML = `<span class="t-key">${line.text}</span><span class="t-val">${line.val}</span>`;
+      tb.appendChild(span);
+      setTimeout(callback, 80);
+    } else {
+      span.innerHTML = `<span class="t-out">${line.text}</span>`;
+      tb.appendChild(span);
+      setTimeout(callback, 100);
+    }
+    tb.scrollTop = tb.scrollHeight;
+  }
+
+  function runTerminal() {
+    if (lineIdx >= terminalLines.length) {
+      // Add blinking cursor at end and restart after pause
+      const cur = document.createElement('span');
+      cur.className = 't-line';
+      cur.innerHTML = `<span class="t-prompt">❯ </span><span class="t-cursor-inline"></span>`;
+      tb.appendChild(cur);
+      setTimeout(() => { tb.innerHTML = ''; lineIdx = 0; runTerminal(); }, 4000);
+      return;
+    }
+    renderLine(terminalLines[lineIdx++], runTerminal);
+  }
+
+  setTimeout(runTerminal, 800);
+
+
+  const phrases = [
+    "Solution Architect for Hire",
+    "Freelance .NET & Azure Consultant",
+    "RegTech & AI/ML Specialist",
+    "Cloud Architecture & Design",
+    "Contract Engineering Lead",
+  ];
+  let pi = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typewriter');
+
+  function type() {
+    const phrase = phrases[pi];
+    if (!deleting) {
+      el.textContent = phrase.slice(0, ++ci);
+      if (ci === phrase.length) { deleting = true; setTimeout(type, 2000); return; }
+    } else {
+      el.textContent = phrase.slice(0, --ci);
+      if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+    }
+    setTimeout(type, deleting ? 40 : 80);
+  }
+  type();
+
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Nav active highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
